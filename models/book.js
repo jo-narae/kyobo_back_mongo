@@ -34,16 +34,12 @@ BookSchema.statics.findAll = function () {
     return this.find({});
 }
 
-BookSchema.statics.findById = function (_id) {
-    return this.find({ _id });
-}
-
 BookSchema.statics.updateById = function (_id, payload) {
-    return this.findOneAndUpdate({ _id }, payload, { new: true });
+    return this.findByIdAndUpdate(_id, payload, { new: true });
 }
 
 BookSchema.statics.deleteById = function (_id) {
-    return this.remove({ _id });
+    return this.findByIdAndDelete(_id);
 }
 
 const Book = mongoose.model('Book', BookSchema);
