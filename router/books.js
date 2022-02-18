@@ -1,49 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+// Todo : 최종적으로는 라우터에서 모델을 가져다 쓰는 구문해야 함
 const Book = require('../models/book');
+const BookController = require('../controller/book');
 
-router.get('/', (req, res) => {
-    Book.findAll()
-    .then(books => {
-        if(!books.length) return res.status(404).send({ err: 'Todo not found' });
-        res.send(books);
-    })
-    .catch(err => res.status(500).send(err));
-});
-
-router.get('/:id', (req, res) => {
-    Book.findById(req.params.id)
-    .then(books => {
-        if(!books.length) return res.status(404).send({ err: 'Todo not found' });
-        res.send(books);
-    })
-    .catch(err => res.status(500).send(err));
-});
-
-router.post('/', (req, res) => {
-    Book.create(req.body)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
-
-router.put('/:id', (req, res) => {
-    console.log(req.params.id, req.body);
-    Book.updateById(req.params.id, req.body)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
-
-router.delete('/:id', (req, res) => {
-    Book.deleteById(req.params.id)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
+router.get('/', BookController.getBooks);
+router.get('/:id', BookController.getBookById);
+router.post('/', BookController.createBook);
+router.put('/:id', BookController.updateBook);
+router.delete('/:id', BookController.deleteBook);
 
 module.exports = router;
